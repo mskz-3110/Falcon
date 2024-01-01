@@ -1,0 +1,18 @@
+{
+  "name": "com.mskz-3110.falcon",
+  "version": "1.0.0",
+  "displayName": "Falcon",
+  "description": "Fast and low cost configuration reading and writing",
+  "unity": "2021.3",
+  "unityRelease": "0b5",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "https://raw.githubusercontent.com/mskz-3110/Falcon/main/LICENSE",
+  "dependencies": {},
+  "keywords": [],
+  "author": {
+    "name": "mskz-3110",
+    "email": "mskz.saito@gmail.com",
+    "url": "https://github.com/mskz-3110/Falcon"
+  }
+}
