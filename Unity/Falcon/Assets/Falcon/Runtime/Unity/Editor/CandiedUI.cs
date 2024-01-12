@@ -7,7 +7,7 @@ using UnityEditor;
 #endif
 
 namespace Falcon {
-  public class UnityUI {
+  public class CandiedUI {
     public enum MessageType {
       None,
       Info,

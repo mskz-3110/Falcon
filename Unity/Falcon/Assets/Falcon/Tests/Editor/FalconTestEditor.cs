@@ -49,12 +49,12 @@ namespace Falcon {
       }
 
       public override void OnGUI(){
-        UnityUI.Horizontal(() => {
+        CandiedUI.Horizontal(() => {
           Path = EditorGUILayout.TextField("Path", Path);
-          UnityUI.Button("Select", () => {
-            UnityUI.SelectDirectory("Destination", Path, (path) => Path = path);
+          CandiedUI.Button("Select", () => {
+            CandiedUI.SelectDirectory("Destination", Path, (path) => Path = path);
           });
-          UnityUI.Button("Open", () => {
+          CandiedUI.Button("Open", () => {
             Application.OpenURL($"file://{System.IO.Path.GetFullPath(Path)}");
           });
         });

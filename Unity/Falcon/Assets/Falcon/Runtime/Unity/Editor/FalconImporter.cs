@@ -52,7 +52,7 @@ namespace Falcon {
 
     private Selected<string, Type, Config> m_SelectedConfig = new Selected<string, Type, Config>();
 
-    private UnityUI.HelpBox m_HelpBox = new UnityUI.HelpBox();
+    private CandiedUI.HelpBox m_HelpBox = new CandiedUI.HelpBox();
 
     static FalconImporterEditor(){
       SelectionConfig.Add("Falcon.Config", typeof(Config));
@@ -86,19 +86,19 @@ namespace Falcon {
       if (m_SelectedConfig.Object.GetType() != configType){
         m_SelectedConfig.Object = ConfigManager.Instance.Load(falconImporter.assetPath, configType, SetHelpBox);
       }
-      UnityUI.Horizontal(() => {
-        UnityUI.Button("Load", () => {
-          m_HelpBox.Set("Load completed", UnityUI.MessageType.Info);
+      CandiedUI.Horizontal(() => {
+        CandiedUI.Button("Load", () => {
+          m_HelpBox.Set("Load completed", CandiedUI.MessageType.Info);
           m_SelectedConfig.Object.Load(SetHelpBox);
         });
-        UnityUI.Button("Reset", () => {
-          m_HelpBox.Set("Reset completed", UnityUI.MessageType.Info);
+        CandiedUI.Button("Reset", () => {
+          m_HelpBox.Set("Reset completed", CandiedUI.MessageType.Info);
           m_SelectedConfig.Object.Reset(ConfigManager.Instance.Create(configType));
         });
       });
       m_SelectedConfig.Object.OnGUI();
-      UnityUI.Button("Save", () => {
-        m_HelpBox.Set("Save completed", UnityUI.MessageType.Info);
+      CandiedUI.Button("Save", () => {
+        m_HelpBox.Set("Save completed", CandiedUI.MessageType.Info);
         ConfigManager.Instance.Save(m_SelectedConfig.Object, SetHelpBox);
         AssetDatabase.ImportAsset(m_SelectedConfig.Object.FilePath);
       });
@@ -106,7 +106,7 @@ namespace Falcon {
     }
 
     private void SetHelpBox(Exception exception){
-      m_HelpBox.Set(exception.Message, UnityUI.MessageType.Error);
+      m_HelpBox.Set(exception.Message, CandiedUI.MessageType.Error);
     }
   }
 }
