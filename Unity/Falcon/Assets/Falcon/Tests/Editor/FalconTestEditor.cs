@@ -5,16 +5,17 @@ using UnityEngine;
 
 namespace Falcon {
   public class FalconTestEditor {
-    public const string EditorDirectoryPath = "./Assets/Falcon/Tests/Editor";
+    static public readonly string EditorDirectoryPath = "./Assets/Falcon/Tests/Editor";
 
-    public readonly string ParentConfigFilePath = $"{EditorDirectoryPath}/ParentConfig.json";
+    static public readonly string ParentConfigFilePath = $"{EditorDirectoryPath}/ParentConfig.json";
 
-    public readonly string ChildConfigFilePath = $"{EditorDirectoryPath}/ChildConfig.json";
+    static public readonly string ChildConfigFilePath = $"{EditorDirectoryPath}/ChildConfig.json";
 
     private class ParentConfig : Config {
       public string Key;
 
       public ParentConfig(){
+        FilePath = ParentConfigFilePath;
         Key = "Parent";
       }
 
@@ -27,6 +28,7 @@ namespace Falcon {
       public int Value;
 
       public ChildConfig(){
+        FilePath = ChildConfigFilePath;
         Key = "Child";
         Value = 10;
       }
@@ -60,23 +62,29 @@ namespace Falcon {
       }
     }
 
+    static FalconTestEditor(){
+      ConfigManager.Instance.ConfigUtility = new JsonConfigUtility();
+    }
+
     [Test]
     public void ConfigTest(){
-      var parentConfig = UnityConfigManager.LoadJson<ParentConfig>(ParentConfigFilePath, Log);
+      var parentConfig = new ParentConfig();
+      parentConfig.Load(Log);
       Assert.That(parentConfig.Key == "Parent");
       if (!parentConfig.Exists()){
-        UnityConfigManager.SaveJson(parentConfig, Log);
+        parentConfig.Save(Log);
       }
 
-      var childConfig = UnityConfigManager.LoadJson<ChildConfig>(ChildConfigFilePath, Log);
+      var childConfig = new ChildConfig();
+      childConfig.Load(Log);
       Assert.That(childConfig.Key == "Child");
       Assert.That(childConfig.Value == 10);
       if (!childConfig.Exists()){
-        UnityConfigManager.SaveJson(childConfig, Log);
+        childConfig.Save(Log);
       }
 
-      parentConfig.FilePath = ChildConfigFilePath;
-      UnityConfigManager.OverwriteJson(parentConfig, Log);
+      parentConfig.FilePath = childConfig.FilePath;
+      parentConfig.Load(Log);
       Assert.That(parentConfig.Key == "Child");
 
       AssetDatabase.Refresh();

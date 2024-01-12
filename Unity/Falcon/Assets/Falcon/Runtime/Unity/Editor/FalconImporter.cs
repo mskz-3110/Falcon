@@ -65,8 +65,11 @@ namespace Falcon {
 
     public override void OnEnable(){
       base.OnEnable();
+      if (ConfigManager.Instance.ConfigUtility == null){
+        ConfigManager.Instance.ConfigUtility = new JsonConfigUtility();
+      }
       FalconImporter falconImporter = target as FalconImporter;
-      m_SelectedConfig.Object = UnityConfigManager.LoadJson(falconImporter.assetPath, typeof(Config));
+      m_SelectedConfig.Object = ConfigManager.Instance.Load(falconImporter.assetPath, typeof(Config));
       m_SelectedConfig.Selection = SelectionConfig;
       m_SelectedConfig.Index = 0;
     }
@@ -81,24 +84,22 @@ namespace Falcon {
 
       Type configType = m_SelectedConfig.Value;
       if (m_SelectedConfig.Object.GetType() != configType){
-        m_SelectedConfig.Object = UnityConfigManager.LoadJson(falconImporter.assetPath, configType);
+        m_SelectedConfig.Object = ConfigManager.Instance.Load(falconImporter.assetPath, configType, SetHelpBox);
       }
       UnityUI.Horizontal(() => {
         UnityUI.Button("Load", () => {
           m_HelpBox.Set("Load completed", UnityUI.MessageType.Info);
-          UnityConfigManager.OverwriteJson(m_SelectedConfig.Object, SetHelpBox);
+          m_SelectedConfig.Object.Load(SetHelpBox);
         });
         UnityUI.Button("Reset", () => {
           m_HelpBox.Set("Reset completed", UnityUI.MessageType.Info);
-          string filePath = m_SelectedConfig.Object.FilePath;
-          m_SelectedConfig.Object = (Config)Activator.CreateInstance(configType);
-          m_SelectedConfig.Object.FilePath = filePath;
+          m_SelectedConfig.Object.Reset(ConfigManager.Instance.Create(configType));
         });
       });
       m_SelectedConfig.Object.OnGUI();
       UnityUI.Button("Save", () => {
         m_HelpBox.Set("Save completed", UnityUI.MessageType.Info);
-        UnityConfigManager.SaveJson(m_SelectedConfig.Object, SetHelpBox);
+        ConfigManager.Instance.Save(m_SelectedConfig.Object, SetHelpBox);
         AssetDatabase.ImportAsset(m_SelectedConfig.Object.FilePath);
       });
       m_HelpBox.OnGUI();
