@@ -8,7 +8,7 @@ namespace Falcon {
 
     public delegate void ExceptionEvent(Exception exception);
 
-    public IConfigUtility ConfigUtility;
+    public IConfigUtility ConfigUtility = new ConfigUtility();
 
     public Config Create(Type type){
       return (Config)Activator.CreateInstance(type);
@@ -17,7 +17,7 @@ namespace Falcon {
     public Config Load(string filePath, Type type, ExceptionEvent onException = null){
       Config config;
       try{
-        config = ConfigUtility.Load(filePath, type);
+        config = File.Exists(filePath) ? ConfigUtility.Load(filePath, type) : Create(type);
       }catch (Exception exception){
         onException?.Invoke(exception);
         config = Create(type);

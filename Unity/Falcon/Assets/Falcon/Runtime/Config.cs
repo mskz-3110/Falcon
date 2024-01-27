@@ -19,14 +19,12 @@ namespace Falcon {
       }
     }
 
-    public void Load(ConfigManager.ExceptionEvent onException = null){
+    public virtual void Load(ConfigManager.ExceptionEvent onException = null){
       Reset(ConfigManager.Instance.Load(m_FilePath, GetType(), onException));
     }
 
-    public void Save(ConfigManager.ExceptionEvent onException = null){
+    public virtual void Save(ConfigManager.ExceptionEvent onException = null){
       ConfigManager.Instance.Save(this, onException);
     }
-
-    public virtual void OnGUI(){}
   }
 }

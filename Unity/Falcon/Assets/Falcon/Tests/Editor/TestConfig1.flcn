@@ -1,4 +1,2 @@
-{
-    "Path": "./Assets/Falcon/Tests/Editor",
-    "Name": "Test1"
-}
+Path:"./Assets/Falcon/Tests/Editor"
+Name:"Test1"

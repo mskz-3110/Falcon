@@ -1,0 +1,32 @@
+Bool:False
+Byte:1
+Short:2
+Int:3
+Long:4
+Float:5.5
+Double:6.6
+String:"\n"
+Class:
+ Name:"SimpleClass"
+Struct:
+ Name:"\t"
+StringArray:
+ "AIUEO"
+ " Key:Value "
+ "'"
+StringList:
+ "あいうえお"
+ClassList:
+ :
+  Name:"\":\""
+ :
+  Name:"\\n"
+ :
+  Name:"A:1"
+GrandConfig:
+ Parent:
+  Child:
+   Value:3
+  Value:2
+ Value:1
+BaseConfig:

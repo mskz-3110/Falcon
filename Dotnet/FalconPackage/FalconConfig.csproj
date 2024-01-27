@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageId>FalconConfig</PackageId>
+    <Version>1.1.0</Version>
+    <Authors>mskz-3110</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Unity/Falcon/Assets/Falcon/Runtime/*.cs"/>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

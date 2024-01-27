@@ -29,6 +29,13 @@ namespace Falcon {
       private V[] m_Values = new V[0];
       public V[] Values => m_Values;
 
+      public int Index;
+
+      public int UpdateIndex(){
+        if (m_Keys.Length <= Index) Index = 0;
+        return Index;
+      }
+
       public void Add(K key, V value){
         m_KeyValues.Add(new KeyValuePair<K, V>(key, value));
         m_Keys = m_KeyValues.Select(x => x.Key).ToArray();
@@ -52,6 +59,8 @@ namespace Falcon {
 
     private Selected<string, Type, Config> m_SelectedConfig = new Selected<string, Type, Config>();
 
+    private IConfigEditor m_ConfigEditor;
+
     private CandiedUI.HelpBox m_HelpBox = new CandiedUI.HelpBox();
 
     static FalconImporterEditor(){
@@ -65,13 +74,11 @@ namespace Falcon {
 
     public override void OnEnable(){
       base.OnEnable();
-      if (ConfigManager.Instance.ConfigUtility == null){
-        ConfigManager.Instance.ConfigUtility = new JsonConfigUtility();
-      }
       FalconImporter falconImporter = target as FalconImporter;
       m_SelectedConfig.Object = ConfigManager.Instance.Load(falconImporter.assetPath, typeof(Config));
       m_SelectedConfig.Selection = SelectionConfig;
-      m_SelectedConfig.Index = 0;
+      m_SelectedConfig.Index = SelectionConfig.UpdateIndex();
+      m_ConfigEditor = null;
     }
 
     public override void OnInspectorGUI(){
@@ -85,7 +92,11 @@ namespace Falcon {
       Type configType = m_SelectedConfig.Value;
       if (m_SelectedConfig.Object.GetType() != configType){
         m_SelectedConfig.Object = ConfigManager.Instance.Load(falconImporter.assetPath, configType, SetHelpBox);
+        SelectionConfig.Index = m_SelectedConfig.Index;
+        m_ConfigEditor = m_SelectedConfig.Object as IConfigEditor;
       }
+      if (m_ConfigEditor == null) return;
+
       CandiedUI.Horizontal(() => {
         CandiedUI.Button("Load", () => {
           m_HelpBox.Set("Load completed", CandiedUI.MessageType.Info);
@@ -96,7 +107,7 @@ namespace Falcon {
           m_SelectedConfig.Object.Reset(ConfigManager.Instance.Create(configType));
         });
       });
-      m_SelectedConfig.Object.OnGUI();
+      m_ConfigEditor.OnGUI();
       CandiedUI.Button("Save", () => {
         m_HelpBox.Set("Save completed", CandiedUI.MessageType.Info);
         ConfigManager.Instance.Save(m_SelectedConfig.Object, SetHelpBox);
