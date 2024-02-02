@@ -68,6 +68,21 @@ namespace Falcon {
       }
     }
 
+    [Serializable]
+    public struct TestBytes {
+      public byte _Byte0;
+      public byte _Byte1;
+      public byte _Byte2;
+      public byte _Byte3;
+
+      public TestBytes(byte byte0, byte byte1, byte byte2, byte byte3)  : this(){
+        _Byte0 = byte0;
+        _Byte1 = byte1;
+        _Byte2 = byte2;
+        _Byte3 = byte3;
+      }
+    }
+
     public class SupportedTypesConfig : BaseConfig {
       public bool Bool;
       public byte Byte;
@@ -85,6 +100,7 @@ namespace Falcon {
       public GrandConfig GrandConfig;
       public BaseConfig BaseConfig;
       public SimpleClass NullClass;
+      public TestBytes TestBytes;
 
       public SupportedTypesConfig(){
         Byte = 1;
@@ -105,6 +121,7 @@ namespace Falcon {
         };
         GrandConfig = new GrandConfig();
         BaseConfig = new BaseConfig();
+        TestBytes = new TestBytes(0, 1, 2, 3);
       }
 
       public void Assert(){
@@ -133,6 +150,10 @@ namespace Falcon {
         Debug.Assert(GrandConfig.Value == 1);
         Debug.Assert(BaseConfig != null);
         Debug.Assert(NullClass == null);
+        Debug.Assert(TestBytes._Byte0 == 0);
+        Debug.Assert(TestBytes._Byte1 == 1);
+        Debug.Assert(TestBytes._Byte2 == 2);
+        Debug.Assert(TestBytes._Byte3 == 3);
       }
     }
 

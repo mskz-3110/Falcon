@@ -40,7 +40,7 @@ namespace Falcon {
 
     private Regex m_ValueRegex = new Regex("([ ]*)(.+)");
 
-    private Regex m_FieldRegex = new Regex("([ ]*)([a-zA-Z]*?):(.*)");
+    private Regex m_FieldRegex = new Regex("([ ]*)([a-zA-Z0-9_]*?):(.*)");
 
     private FalconReader(StreamReader streamReader){
       m_StreamReader = streamReader;

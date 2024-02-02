@@ -115,7 +115,13 @@ namespace Falcon {
     }
 
     private void WriteFields(object value, int indentLevel){
-      foreach (FieldInfo field in GetFields(value.GetType())){
+      FieldInfo[] fields = GetFields(value.GetType());
+      if (0 == fields.Length){
+        WriteLine();
+        return;
+      }
+
+      foreach (FieldInfo field in fields){
         WriteField(field, field.GetValue(value), indentLevel);
       }
     }

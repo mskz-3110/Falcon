@@ -30,3 +30,8 @@ GrandConfig:
   Value:2
  Value:1
 BaseConfig:
+TestBytes:
+ _Byte0:0
+ _Byte1:1
+ _Byte2:2
+ _Byte3:3
